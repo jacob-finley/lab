@@ -1,78 +1,91 @@
 class Television:
     MIN_CHANNEL = 0  # Minimum TV channel
     MAX_CHANNEL = 3  # Maximum TV channel
-
     MIN_VOLUME = 0  # Minimum TV volume
     MAX_VOLUME = 2  # Maximum TV volume
 
-    def __init__(self):
-        self.Channel = 0
-        self.Volume = 0
-        self.on = False
+    def __init__(self) -> None:
         """
-        - Create a private variable to store the TV channel. It should be set to the minimum TV channel by default.
-        - Create a private variable to store the TV volume. It should be set to the minimum TV volume by default.
-        - Create a private variable to store the TV status. The TV should start when it is off.
-        """
+        Sets the values of __Channel, __Volume, and __On for a TV as defaults
 
-    def power(self):
-        if self.on:
-            self.on = False
+        :param self.__Channel: private variable to set a specific channel, set to 0 as default
+        :param self.__Volume: private variable to set the volume, set to 0 as default
+        :param self.__On: private variable to determine if the tv is on or off
+        :return: None
+        """
+        self.__Channel = 0
+        self.__Volume = 0
+        self.__On = False
+
+    def power(self) -> None:
+        """
+        method that turns the tv on or off, when called it will turn
+        the TV on if it is off or off when it is on
+
+        :return: None
+        """
+        if self.__On:
+            self.__On = False
         else:
-            self.on = True
-        """
-        - This method should be used to turn the TV on/off.
-        - If called on a TV object that is off, the TV object should be turned on.
-        - If called on a TV object that is on, the TV object should be turned off.
-        """
+            self.__On = True
 
-    def channel_up(self):
-        if self.on:
-            if self.Channel < 3:
-                self.Channel += 1
+    def channel_up(self, MAX_CHANNEL: int, MIN_CHANNEL: int) -> None:
+        """
+        method that will increment the channel by one or set to the minimum channel if the channel
+        is already at the maximum
+
+        :param MAX_CHANNEL: int that sets the upper bounds of possible channels
+        :param MIN_CHANNEL: int that sets the lower bounds of possible channels
+        :return: None
+        """
+        if self.__On:
+            if self.__Channel < MAX_CHANNEL:
+                self.__Channel += 1
             else:
-                self.Channel = 0
-        """
-        - This method should be used to adjust the TV channel by incrementing its value.
-        - It should only work for a TV that is on.
-        - If the method is called when one is on the MAX_CHANNEL, it should take the TV channel back to the MIN_CHANNEL.
-        """
+                self.__Channel = MIN_CHANNEL
 
-    def channel_down(self):
-        if self.on:
-            if self.Channel > 0:
-                self.Channel -= 1
+    def channel_down(self, MAX_CHANNEL: int, MIN_CHANNEL: int) -> None:
+        """
+        method that will decrement the channel by one or set to the maximum channel if the channel
+        is already at the minimum
+
+        :param MAX_CHANNEL: int that sets the upper bounds of possible channels
+        :param MIN_CHANNEL: int that sets the lower bounds of possible channels
+        :return: None
+        """
+        if self.__On:
+            if self.__Channel > MIN_CHANNEL:
+                self.__Channel -= 1
             else:
-                self.Channel = 3
-        """
-        - This method should be used to adjust the TV channel by decrementing its value.
-        - It should only work for a TV that is on.
-        - If the method is called when one is on the MIN_CHANNEL, it should take the TV channel back to the MAX_CHANNEL.
-        """
+                self.__Channel = MAX_CHANNEL
 
-    def volume_up(self):
-        if self.on:
-            if self.Volume < 2:
-                self.Volume += 1
+    def volume_up(self, MAX_VOLUME: int) -> None:
         """
-        - This method should be used to adjust the TV volume by incrementing its value.
-        - It should only work for a TV that is on.
-        - If the method is called when one is on the MAX_VOLUME, the volume should not be adjusted.
-        """
+        method that will increment the volume of the tv until it hits its maximum volume
 
-    def volume_down(self):
-        if self.on:
-            if self.Volume > 0:
-                self.Volume -= 1
+        :param MAX_VOLUME: int that sets the upper bounds of the volume
+        :return: None
         """
-        - This method should be used to adjust the TV volume by decrementing its value.
-        - It should only work for a TV that is on.
-        - If the method is called when one is on the MIN_VOLUME, the volume should not be adjusted.
-        """
+        if self.__On:
+            if self.__Volume < MAX_VOLUME:
+                self.__Volume += 1
 
-    def __str__(self):
+    def volume_down(self, MIN_VOLUME: int):
         """
-        - This method should be used to return the TV status using the format shown in the comments of main.py
+        method that will decrement the volume of the tv until it hits its minimum volume
+
+        :param MIN_VOLUME: int that sets the lower bounds of the volume
+        :return: None
         """
-        return f'TV status: Is on = {self.on}, Channel = {self.Channel}, Volume = {self.Volume}'
-        # TV status: Is on = False, Channel = 0, Volume = 0
+        if self.__On:
+            if self.__Volume > MIN_VOLUME:
+                self.__Volume -= 1
+
+    def __str__(self) -> str:
+        """
+        print statement that tells the user if the tv is on, what channel it is on,
+        and what the current volume is
+
+        :return: str
+        """
+        return f'TV status: Is on = {self.__On}, Channel = {self.__Channel}, Volume = {self.__Volume}'
